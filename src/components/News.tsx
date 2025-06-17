@@ -1,11 +1,16 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, User, ArrowRight, Clock, Eye } from "lucide-react";
+import { Calendar, User, ArrowRight, Clock, Eye, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRSSNews } from "@/hooks/useRSSNews";
 
 export const News = () => {
-  const newsArticles = [
+  const { data: rssNews, isLoading, error } = useRSSNews();
+
+  // Dados estáticos como fallback
+  const fallbackNews = [
     {
       id: 1,
       title: "Mudanças no Simples Nacional 2024: O que Você Precisa Saber",
@@ -16,7 +21,8 @@ export const News = () => {
       readTime: "5 min",
       views: "2.1k",
       category: "Tributário",
-      featured: true
+      featured: true,
+      link: "/blog/mudancas-simples-nacional-2024"
     },
     {
       id: 2,
@@ -28,8 +34,42 @@ export const News = () => {
       readTime: "7 min",
       views: "1.8k",
       category: "Trabalhista",
-      featured: true
-    },
+      featured: true,
+      link: "/blog/esocial-prazo-adequacao"
+    }
+  ];
+
+  // Combinar notícias do RSS com dados estáticos
+  const newsArticles = rssNews ? [
+    ...rssNews.slice(0, 2).map((item, index) => ({
+      id: `rss-${index}`,
+      title: item.title,
+      excerpt: item.description,
+      image: `https://images.unsplash.com/photo-${index % 2 === 0 ? '1454165804606-c3d57bc86b40' : '1551434678-e076c223a692'}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`,
+      author: "Portal Contábeis",
+      date: item.pubDate,
+      readTime: "5 min",
+      views: "1.2k",
+      category: item.category || "Tributário",
+      featured: true,
+      link: item.link,
+      external: true
+    })),
+    ...rssNews.slice(2, 6).map((item, index) => ({
+      id: `rss-regular-${index}`,
+      title: item.title,
+      excerpt: item.description,
+      image: `https://images.unsplash.com/photo-${['1507003211169-0a1dd7228f2d', '1460925895917-afdab827c52f', '1554224155-6726b3ff858f', '1551288049-bebda4e38f71'][index % 4]}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`,
+      author: "Portal Contábeis",
+      date: item.pubDate,
+      readTime: "4 min",
+      views: "800",
+      category: item.category || "Empresarial",
+      featured: false,
+      link: item.link,
+      external: true
+    }))
+  ] : fallbackNews.concat([
     {
       id: 3,
       title: "Imposto de Renda 2024: Calendário e Principais Mudanças",
@@ -40,7 +80,8 @@ export const News = () => {
       readTime: "6 min",
       views: "3.2k",
       category: "Imposto de Renda",
-      featured: false
+      featured: false,
+      link: "/blog/imposto-renda-2024-calendario"
     },
     {
       id: 4,
@@ -52,36 +93,17 @@ export const News = () => {
       readTime: "8 min",
       views: "1.5k",
       category: "Tecnologia",
-      featured: false
-    },
-    {
-      id: 5,
-      title: "Abertura de Empresa: Guia Completo 2024",
-      excerpt: "Passo a passo atualizado para abrir sua empresa em 2024. Documentos necessários, custos e prazos para cada tipo de negócio.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      author: "Dra. Ana Silva",
-      date: "5 de Janeiro, 2024",
-      readTime: "10 min",
-      views: "2.7k",
-      category: "Empresarial",
-      featured: false
-    },
-    {
-      id: 6,
-      title: "Folha de Pagamento Digital: Benefícios e Implementação",
-      excerpt: "A digitalização da folha de pagamento oferece mais segurança e eficiência. Veja como implementar em sua empresa.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      author: "Dr. Roberto Santos",
-      date: "3 de Janeiro, 2024",
-      readTime: "4 min",
-      views: "1.2k",
-      category: "Trabalhista",
-      featured: false
+      featured: false,
+      link: "/blog/digitalizacao-contabil-ia"
     }
-  ];
+  ]);
 
   const featuredNews = newsArticles.filter(article => article.featured);
   const regularNews = newsArticles.filter(article => !article.featured);
+
+  if (error) {
+    console.log('Erro ao carregar RSS, usando dados estáticos:', error);
+  }
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900">
@@ -97,6 +119,11 @@ export const News = () => {
             Mantenha-se atualizado com as últimas mudanças na legislação tributária 
             e dicas exclusivas dos nossos especialistas.
           </p>
+          {isLoading && (
+            <div className="mt-4 text-sm text-slate-500">
+              Carregando notícias atualizadas...
+            </div>
+          )}
           <div className="mt-6">
             <Link to="/blog">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
@@ -122,6 +149,14 @@ export const News = () => {
                     {article.category}
                   </Badge>
                 </div>
+                {article.external && (
+                  <div className="absolute top-4 right-4">
+                    <Badge variant="secondary" className="bg-green-600 text-white text-xs">
+                      <ExternalLink className="h-3 w-3 mr-1" />
+                      Externo
+                    </Badge>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
               <CardHeader>
@@ -155,12 +190,21 @@ export const News = () => {
                     </div>
                   </div>
                 </div>
-                <Link to="/blog">
-                  <Button variant="outline" className="group">
-                    Ler Artigo Completo
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
+                {article.external ? (
+                  <a href={article.link} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="group">
+                      Ler Artigo Completo
+                      <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </a>
+                ) : (
+                  <Link to={article.link}>
+                    <Button variant="outline" className="group">
+                      Ler Artigo Completo
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                )}
               </CardContent>
             </Card>
           ))}
@@ -181,6 +225,11 @@ export const News = () => {
                     {article.category}
                   </Badge>
                 </div>
+                {article.external && (
+                  <div className="absolute top-2 right-2">
+                    <ExternalLink className="h-3 w-3 text-white bg-black/50 rounded p-0.5" />
+                  </div>
+                )}
               </div>
               <CardContent className="p-4">
                 <h3 className="font-semibold text-sm mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
@@ -193,11 +242,19 @@ export const News = () => {
                   <span>{article.author}</span>
                   <span>{article.readTime}</span>
                 </div>
-                <Link to="/blog">
-                  <Button size="sm" variant="outline" className="w-full text-xs">
-                    Ler Mais
-                  </Button>
-                </Link>
+                {article.external ? (
+                  <a href={article.link} target="_blank" rel="noopener noreferrer">
+                    <Button size="sm" variant="outline" className="w-full text-xs">
+                      Ler Mais
+                    </Button>
+                  </a>
+                ) : (
+                  <Link to={article.link}>
+                    <Button size="sm" variant="outline" className="w-full text-xs">
+                      Ler Mais
+                    </Button>
+                  </Link>
+                )}
               </CardContent>
             </Card>
           ))}

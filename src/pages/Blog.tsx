@@ -6,19 +6,22 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Calendar, User, ArrowRight, Clock, Eye, Search, Filter } from "lucide-react";
+import { Calendar, User, ArrowRight, Clock, Eye, Search, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRSSNews } from "@/hooks/useRSSNews";
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
+  const { data: rssNews, isLoading } = useRSSNews();
 
   const categories = [
     "Todos", "Tributário", "Trabalhista", "Imposto de Renda", 
     "Tecnologia", "Empresarial", "MEI", "Simples Nacional"
   ];
 
-  const blogPosts = [
+  // Dados estáticos como fallback
+  const staticPosts = [
     {
       id: 1,
       title: "Mudanças no Simples Nacional 2024: O que Você Precisa Saber",
@@ -30,7 +33,26 @@ const Blog = () => {
       views: "2.1k",
       category: "Tributário",
       slug: "mudancas-simples-nacional-2024"
-    },
+    }
+  ];
+
+  // Combinar notícias do RSS com dados estáticos
+  const allPosts = rssNews ? [
+    ...rssNews.map((item, index) => ({
+      id: `rss-${index}`,
+      title: item.title,
+      excerpt: item.description,
+      image: `https://images.unsplash.com/photo-${['1454165804606-c3d57bc86b40', '1551434678-e076c223a692', '1554224155-6726b3ff858f', '1551288049-bebda4e38f71', '1507003211169-0a1dd7228f2d', '1460925895917-afdab827c52f'][index % 6]}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`,
+      author: "Portal Contábeis",
+      date: item.pubDate,
+      readTime: "5 min",
+      views: "1.2k",
+      category: item.category || "Tributário",
+      slug: item.link,
+      external: true
+    })),
+    ...staticPosts
+  ] : staticPosts.concat([
     {
       id: 2,
       title: "eSocial: Prazo Final para Adequação se Aproxima",
@@ -54,46 +76,10 @@ const Blog = () => {
       views: "3.2k",
       category: "Imposto de Renda",
       slug: "imposto-renda-2024-calendario"
-    },
-    {
-      id: 4,
-      title: "Digitalização Contábil: Como a IA Está Mudando o Setor",
-      excerpt: "A inteligência artificial e automação estão revolucionando a contabilidade. Descubra como sua empresa pode se beneficiar dessas tecnologias emergentes.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      author: "Dr. Carlos Mendonça",
-      date: "8 de Janeiro, 2024",
-      readTime: "8 min",
-      views: "1.5k",
-      category: "Tecnologia",
-      slug: "digitalizacao-contabil-ia"
-    },
-    {
-      id: 5,
-      title: "Abertura de Empresa: Guia Completo 2024",
-      excerpt: "Passo a passo atualizado para abrir sua empresa em 2024. Documentos necessários, custos e prazos para cada tipo de negócio.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      author: "Dra. Ana Silva",
-      date: "5 de Janeiro, 2024",
-      readTime: "10 min",
-      views: "2.7k",
-      category: "Empresarial",
-      slug: "abertura-empresa-guia-2024"
-    },
-    {
-      id: 6,
-      title: "MEI 2024: Novas Regras e Oportunidades",
-      excerpt: "Conheça as mudanças no MEI para 2024, incluindo novos limites de faturamento e atividades permitidas. Saiba se ainda vale a pena ser MEI.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      author: "Dr. Roberto Santos",
-      date: "3 de Janeiro, 2024",
-      readTime: "4 min",
-      views: "1.2k",
-      category: "MEI",
-      slug: "mei-2024-novas-regras"
     }
-  ];
+  ]);
 
-  const filteredPosts = blogPosts.filter(post => {
+  const filteredPosts = allPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "Todos" || post.category === selectedCategory;
@@ -118,6 +104,11 @@ const Blog = () => {
               Mantenha-se atualizado com as últimas mudanças na legislação tributária 
               e dicas exclusivas dos nossos especialistas.
             </p>
+            {isLoading && (
+              <div className="mt-4 text-sm text-slate-500">
+                Carregando notícias atualizadas do Portal Contábeis...
+              </div>
+            )}
           </div>
         </section>
 
@@ -168,6 +159,14 @@ const Blog = () => {
                         {post.category}
                       </Badge>
                     </div>
+                    {post.external && (
+                      <div className="absolute top-4 right-4">
+                        <Badge variant="secondary" className="bg-green-600 text-white text-xs">
+                          <ExternalLink className="h-3 w-3 mr-1" />
+                          RSS
+                        </Badge>
+                      </div>
+                    )}
                   </div>
                   <CardHeader>
                     <CardTitle className="text-lg group-hover:text-blue-600 transition-colors line-clamp-2">
@@ -198,12 +197,21 @@ const Blog = () => {
                       <span className="text-sm text-slate-500 dark:text-slate-400">
                         {post.date}
                       </span>
-                      <Link to={`/blog/${post.slug}`}>
-                        <Button variant="outline" size="sm" className="group">
-                          Ler Mais
-                          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                        </Button>
-                      </Link>
+                      {post.external ? (
+                        <a href={post.slug} target="_blank" rel="noopener noreferrer">
+                          <Button variant="outline" size="sm" className="group">
+                            Ler Mais
+                            <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </a>
+                      ) : (
+                        <Link to={`/blog/${post.slug}`}>
+                          <Button variant="outline" size="sm" className="group">
+                            Ler Mais
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </Link>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
