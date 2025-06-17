@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Shield, Award, TrendingUp, ChevronLeft, ChevronRight } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 export const Hero = () => {
   const [api, setApi] = useState<any>();
@@ -76,7 +77,19 @@ export const Hero = () => {
 
           {/* Slideshow */}
           <div className="relative">
-            <Carousel setApi={setApi} className="w-full max-w-lg mx-auto">
+            <Carousel 
+              setApi={setApi} 
+              className="w-full max-w-lg mx-auto"
+              plugins={[
+                Autoplay({
+                  delay: 4000,
+                })
+              ]}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+            >
               <CarouselContent>
                 {heroImages.map((image, index) => (
                   <CarouselItem key={index}>

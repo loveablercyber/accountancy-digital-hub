@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Calculator, FileText, Download, ArrowRight } from "lucide-react";
+import { Calculator, FileText, Download, ArrowRight, TrendingUp, Users, Building, Percent } from "lucide-react";
 
 export const LeadForm = () => {
   const [activeSimulator, setActiveSimulator] = useState("tax");
@@ -31,6 +31,50 @@ export const LeadForm = () => {
         { label: "Atividade", placeholder: "Área de atuação", type: "text" },
         { label: "Número de Sócios", placeholder: "1", type: "number" }
       ]
+    },
+    {
+      id: "payroll",
+      title: "Calculadora de Folha",
+      description: "Simule custos de folha de pagamento completa",
+      icon: Users,
+      fields: [
+        { label: "Número de Funcionários", placeholder: "10", type: "number" },
+        { label: "Salário Médio", placeholder: "R$ 2.500,00", type: "text" },
+        { label: "Setor da Empresa", placeholder: "Selecionar", type: "select", options: ["Comércio", "Indústria", "Serviços", "Tecnologia"] }
+      ]
+    },
+    {
+      id: "profit",
+      title: "Simulador de Lucratividade",
+      description: "Analise a margem de lucro do seu negócio",
+      icon: TrendingUp,
+      fields: [
+        { label: "Receita Bruta Mensal", placeholder: "R$ 100.000,00", type: "text" },
+        { label: "Custos Fixos", placeholder: "R$ 30.000,00", type: "text" },
+        { label: "Custos Variáveis (%)", placeholder: "40", type: "number" }
+      ]
+    },
+    {
+      id: "mei",
+      title: "Calculadora MEI",
+      description: "Verifique se MEI é ideal para seu negócio",
+      icon: Building,
+      fields: [
+        { label: "Faturamento Anual Previsto", placeholder: "R$ 81.000,00", type: "text" },
+        { label: "Tipo de Atividade", placeholder: "Selecionar", type: "select", options: ["Comércio", "Indústria", "Serviços"] },
+        { label: "Possui Funcionários", placeholder: "Selecionar", type: "select", options: ["Não", "Sim - 1 funcionário"] }
+      ]
+    },
+    {
+      id: "savings",
+      title: "Calculadora de Economia",
+      description: "Compare regimes e descubra sua economia",
+      icon: Percent,
+      fields: [
+        { label: "Faturamento Atual", placeholder: "R$ 200.000,00", type: "text" },
+        { label: "Regime Atual", placeholder: "Selecionar", type: "select", options: ["Simples Nacional", "Lucro Presumido", "Lucro Real"] },
+        { label: "Margem de Lucro (%)", placeholder: "15", type: "number" }
+      ]
     }
   ];
 
@@ -38,7 +82,7 @@ export const LeadForm = () => {
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 to-blue-800">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4 bg-white/20 text-white border-white/30">
             Ferramentas Gratuitas
@@ -54,51 +98,53 @@ export const LeadForm = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Simulator Tabs */}
-          <div className="space-y-4">
-            {simulators.map((simulator) => {
-              const IconComponent = simulator.icon;
-              return (
-                <div
-                  key={simulator.id}
-                  className={`p-6 rounded-xl cursor-pointer transition-all ${
-                    activeSimulator === simulator.id
-                      ? "bg-white shadow-lg"
-                      : "bg-white/10 hover:bg-white/20"
-                  }`}
-                  onClick={() => setActiveSimulator(simulator.id)}
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-lg ${
+          <div className="space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {simulators.map((simulator) => {
+                const IconComponent = simulator.icon;
+                return (
+                  <div
+                    key={simulator.id}
+                    className={`p-4 rounded-xl cursor-pointer transition-all ${
                       activeSimulator === simulator.id
-                        ? "bg-blue-100"
-                        : "bg-white/20"
-                    }`}>
-                      <IconComponent className={`h-6 w-6 ${
+                        ? "bg-white shadow-lg"
+                        : "bg-white/10 hover:bg-white/20"
+                    }`}
+                    onClick={() => setActiveSimulator(simulator.id)}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className={`p-2 rounded-lg ${
                         activeSimulator === simulator.id
-                          ? "text-blue-600"
-                          : "text-white"
-                      }`} />
-                    </div>
-                    <div>
-                      <h3 className={`font-semibold ${
-                        activeSimulator === simulator.id
-                          ? "text-slate-900"
-                          : "text-white"
+                          ? "bg-blue-100"
+                          : "bg-white/20"
                       }`}>
-                        {simulator.title}
-                      </h3>
-                      <p className={`text-sm ${
-                        activeSimulator === simulator.id
-                          ? "text-slate-600"
-                          : "text-blue-100"
-                      }`}>
-                        {simulator.description}
-                      </p>
+                        <IconComponent className={`h-5 w-5 ${
+                          activeSimulator === simulator.id
+                            ? "text-blue-600"
+                            : "text-white"
+                        }`} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className={`font-semibold text-sm ${
+                          activeSimulator === simulator.id
+                            ? "text-slate-900"
+                            : "text-white"
+                        }`}>
+                          {simulator.title}
+                        </h3>
+                        <p className={`text-xs ${
+                          activeSimulator === simulator.id
+                            ? "text-slate-600"
+                            : "text-blue-100"
+                        }`}>
+                          {simulator.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
           {/* Active Simulator Form */}
