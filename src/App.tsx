@@ -7,6 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import MEI from "./pages/services/MEI";
+import SimplesNacional from "./pages/services/SimplesNacional";
+import LucroPresumido from "./pages/services/LucroPresumido";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +22,9 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/servicos/mei" element={<MEI />} />
+            <Route path="/servicos/simples-nacional" element={<SimplesNacional />} />
+            <Route path="/servicos/lucro-presumido" element={<LucroPresumido />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

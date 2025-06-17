@@ -12,7 +12,8 @@ export const Testimonials = () => {
       rating: 5,
       text: "O ContaExcel transformou nossa gestão contábil. A automação nos poupou horas de trabalho e a consultoria especializada nos ajudou a economizar 30% em impostos.",
       service: "Planejamento Tributário",
-      savings: "R$ 45.000/ano"
+      savings: "R$ 45.000/ano",
+      image: "https://images.unsplash.com/photo-1494790108755-2616b612b977?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
     },
     {
       name: "João Santos",
@@ -21,7 +22,8 @@ export const Testimonials = () => {
       rating: 5,
       text: "Atendimento excepcional e expertise incomparável. Desde que migramos para o ContaExcel, nossa conformidade fiscal é 100% e nunca mais tivemos problemas com órgãos fiscalizadores.",
       service: "Compliance Fiscal",
-      savings: "Zero Multas"
+      savings: "Zero Multas",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
     },
     {
       name: "Ana Costa",
@@ -30,7 +32,8 @@ export const Testimonials = () => {
       rating: 5,
       text: "A digitalização completa dos processos e o dashboard em tempo real nos deram total controle sobre nossa situação fiscal. Recomendo para qualquer empresa que busca modernidade.",
       service: "Contabilidade Digital",
-      savings: "70% Tempo"
+      savings: "70% Tempo",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
     },
     {
       name: "Carlos Oliveira",
@@ -39,7 +42,8 @@ export const Testimonials = () => {
       rating: 5,
       text: "Profissionais altamente qualificados e tecnologia de ponta. A abertura da nossa filial foi concluída em menos de 48 horas com total suporte jurídico e contábil.",
       service: "Abertura de Empresa",
-      savings: "48h Processo"
+      savings: "48h Processo",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
     }
   ];
 
@@ -82,15 +86,22 @@ export const Testimonials = () => {
 
                 {/* Client Info */}
                 <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold text-slate-900 dark:text-white">
-                      {testimonial.name}
-                    </div>
-                    <div className="text-sm text-slate-600 dark:text-slate-400">
-                      {testimonial.company}
-                    </div>
-                    <div className="text-sm text-slate-500 dark:text-slate-500">
-                      {testimonial.location}
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-blue-200 dark:border-blue-800"
+                    />
+                    <div>
+                      <div className="font-semibold text-slate-900 dark:text-white">
+                        {testimonial.name}
+                      </div>
+                      <div className="text-sm text-slate-600 dark:text-slate-400">
+                        {testimonial.company}
+                      </div>
+                      <div className="text-sm text-slate-500 dark:text-slate-500">
+                        {testimonial.location}
+                      </div>
                     </div>
                   </div>
                   

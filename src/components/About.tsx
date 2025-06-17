@@ -10,21 +10,24 @@ export const About = () => {
       role: "Contador Responsável",
       credential: "CRC-SP 1234567",
       experience: "20+ anos de experiência",
-      specialties: ["Auditoria", "Consultoria Fiscal", "Governança Corporativa"]
+      specialties: ["Auditoria", "Consultoria Fiscal", "Governança Corporativa"],
+      image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
     },
     {
       name: "Ana Paula Silva",
       role: "Gestora de Compliance",
       credential: "CRC-SP 2345678",
       experience: "15+ anos de experiência",
-      specialties: ["eSocial", "Folha de Pagamento", "Trabalhista"]
+      specialties: ["eSocial", "Folha de Pagamento", "Trabalhista"],
+      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
     },
     {
       name: "Ricardo Santos",
       role: "Especialista Tributário",
       credential: "CRC-SP 3456789",
       experience: "12+ anos de experiência",
-      specialties: ["Planejamento Tributário", "Elisão Fiscal", "Consultoria"]
+      specialties: ["Planejamento Tributário", "Elisão Fiscal", "Consultoria"],
+      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
     }
   ];
 
@@ -133,11 +136,11 @@ export const About = () => {
             {team.map((member, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-white text-2xl font-bold">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-blue-200 dark:border-blue-800"
+                  />
                   <h4 className="font-bold text-slate-900 dark:text-white mb-1">
                     {member.name}
                   </h4>
