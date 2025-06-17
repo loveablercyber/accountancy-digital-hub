@@ -4,7 +4,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Calculator, FileText, Download, ArrowRight, TrendingUp, Users, Building, Percent } from "lucide-react";
+import { 
+  Calculator, 
+  FileText, 
+  Download, 
+  ArrowRight, 
+  TrendingUp, 
+  Users, 
+  Building, 
+  Percent,
+  CreditCard,
+  PiggyBank,
+  Briefcase,
+  Receipt,
+  Target,
+  BarChart3
+} from "lucide-react";
 
 export const LeadForm = () => {
   const [activeSimulator, setActiveSimulator] = useState("tax");
@@ -75,6 +90,72 @@ export const LeadForm = () => {
         { label: "Regime Atual", placeholder: "Selecionar", type: "select", options: ["Simples Nacional", "Lucro Presumido", "Lucro Real"] },
         { label: "Margem de Lucro (%)", placeholder: "15", type: "number" }
       ]
+    },
+    {
+      id: "cash-flow",
+      title: "Simulador de Fluxo de Caixa",
+      description: "Projete o fluxo de caixa da sua empresa",
+      icon: CreditCard,
+      fields: [
+        { label: "Receitas Mensais", placeholder: "R$ 80.000,00", type: "text" },
+        { label: "Gastos Fixos", placeholder: "R$ 25.000,00", type: "text" },
+        { label: "Gastos Variáveis", placeholder: "R$ 35.000,00", type: "text" }
+      ]
+    },
+    {
+      id: "investment",
+      title: "Calculadora de Investimento",
+      description: "Analise viabilidade de novos investimentos",
+      icon: PiggyBank,
+      fields: [
+        { label: "Valor do Investimento", placeholder: "R$ 100.000,00", type: "text" },
+        { label: "Retorno Mensal Esperado", placeholder: "R$ 5.000,00", type: "text" },
+        { label: "Prazo de Retorno (meses)", placeholder: "24", type: "number" }
+      ]
+    },
+    {
+      id: "business-plan",
+      title: "Simulador de Plano de Negócios",
+      description: "Valide a viabilidade do seu negócio",
+      icon: Briefcase,
+      fields: [
+        { label: "Investimento Inicial", placeholder: "R$ 50.000,00", type: "text" },
+        { label: "Faturamento Projetado (1º ano)", placeholder: "R$ 300.000,00", type: "text" },
+        { label: "Margem Operacional (%)", placeholder: "20", type: "number" }
+      ]
+    },
+    {
+      id: "simples-calculator",
+      title: "Calculadora Simples Nacional",
+      description: "Calcule os impostos no Simples Nacional",
+      icon: Receipt,
+      fields: [
+        { label: "Faturamento dos Últimos 12 Meses", placeholder: "R$ 1.000.000,00", type: "text" },
+        { label: "Anexo do Simples", placeholder: "Selecionar", type: "select", options: ["Anexo I - Comércio", "Anexo II - Indústria", "Anexo III - Serviços", "Anexo IV - Serviços", "Anexo V - Serviços"] },
+        { label: "Faturamento do Mês", placeholder: "R$ 100.000,00", type: "text" }
+      ]
+    },
+    {
+      id: "break-even",
+      title: "Ponto de Equilibrio",
+      description: "Calcule o ponto de equilíbrio da empresa",
+      icon: Target,
+      fields: [
+        { label: "Custos Fixos Totais", placeholder: "R$ 20.000,00", type: "text" },
+        { label: "Preço de Venda Unitário", placeholder: "R$ 100,00", type: "text" },
+        { label: "Custo Variável Unitário", placeholder: "R$ 60,00", type: "text" }
+      ]
+    },
+    {
+      id: "financial-analysis",
+      title: "Análise Financeira",
+      description: "Avalie a saúde financeira da empresa",
+      icon: BarChart3,
+      fields: [
+        { label: "Ativo Total", placeholder: "R$ 500.000,00", type: "text" },
+        { label: "Passivo Total", placeholder: "R$ 200.000,00", type: "text" },
+        { label: "Receita Líquida Anual", placeholder: "R$ 1.200.000,00", type: "text" }
+      ]
     }
   ];
 
@@ -99,13 +180,13 @@ export const LeadForm = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Simulator Tabs */}
           <div className="space-y-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto">
               {simulators.map((simulator) => {
                 const IconComponent = simulator.icon;
                 return (
                   <div
                     key={simulator.id}
-                    className={`p-4 rounded-xl cursor-pointer transition-all ${
+                    className={`p-3 rounded-xl cursor-pointer transition-all ${
                       activeSimulator === simulator.id
                         ? "bg-white shadow-lg"
                         : "bg-white/10 hover:bg-white/20"
@@ -118,14 +199,14 @@ export const LeadForm = () => {
                           ? "bg-blue-100"
                           : "bg-white/20"
                       }`}>
-                        <IconComponent className={`h-5 w-5 ${
+                        <IconComponent className={`h-4 w-4 ${
                           activeSimulator === simulator.id
                             ? "text-blue-600"
                             : "text-white"
                         }`} />
                       </div>
                       <div className="flex-1">
-                        <h3 className={`font-semibold text-sm ${
+                        <h3 className={`font-semibold text-xs ${
                           activeSimulator === simulator.id
                             ? "text-slate-900"
                             : "text-white"

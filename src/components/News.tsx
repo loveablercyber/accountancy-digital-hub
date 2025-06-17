@@ -1,8 +1,8 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, User, ArrowRight, Clock, Eye } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const News = () => {
   const newsArticles = [
@@ -97,6 +97,14 @@ export const News = () => {
             Mantenha-se atualizado com as últimas mudanças na legislação tributária 
             e dicas exclusivas dos nossos especialistas.
           </p>
+          <div className="mt-6">
+            <Link to="/blog">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                Ver Todos os Artigos
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Featured Articles */}
@@ -147,10 +155,12 @@ export const News = () => {
                     </div>
                   </div>
                 </div>
-                <Button variant="outline" className="group">
-                  Ler Artigo Completo
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link to="/blog">
+                  <Button variant="outline" className="group">
+                    Ler Artigo Completo
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}
@@ -183,9 +193,11 @@ export const News = () => {
                   <span>{article.author}</span>
                   <span>{article.readTime}</span>
                 </div>
-                <Button size="sm" variant="outline" className="w-full text-xs">
-                  Ler Mais
-                </Button>
+                <Link to="/blog">
+                  <Button size="sm" variant="outline" className="w-full text-xs">
+                    Ler Mais
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}

@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -78,7 +77,40 @@ export const Contact = () => {
           {/* Contact Methods */}
           <div className="lg:col-span-1">
             <div className="space-y-6">
-              {contactMethods.map((method, index) => {
+              {[
+                {
+                  icon: Phone,
+                  title: "Telefone",
+                  info: "(11) 3456-7890",
+                  description: "Seg-Sex: 8h às 18h",
+                  action: "Ligar Agora",
+                  color: "blue"
+                },
+                {
+                  icon: MessageCircle,
+                  title: "WhatsApp Business",
+                  info: "(11) 99999-8888",
+                  description: "Resposta automática 24/7",
+                  action: "Chamar no WhatsApp",
+                  color: "green"
+                },
+                {
+                  icon: Mail,
+                  title: "E-mail",
+                  info: "contato@contaexcel.com.br",
+                  description: "Resposta em até 2h",
+                  action: "Enviar E-mail",
+                  color: "purple"
+                },
+                {
+                  icon: Video,
+                  title: "Videoconferência",
+                  info: "Atendimento Online",
+                  description: "Agende sua reunião",
+                  action: "Agendar Reunião",
+                  color: "orange"
+                }
+              ].map((method, index) => {
                 const IconComponent = method.icon;
                 return (
                   <Card key={index} className="hover:shadow-lg transition-shadow">
@@ -116,16 +148,16 @@ export const Contact = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold text-red-900 dark:text-red-100 mb-1">
-                        {emergencySupport.title}
+                        Suporte Emergencial
                       </h3>
                       <p className="text-sm text-red-700 dark:text-red-300 mb-1">
-                        {emergencySupport.phone}
+                        (11) 99999-0000
                       </p>
                       <p className="text-xs text-red-600 dark:text-red-400 mb-2">
-                        {emergencySupport.description}
+                        Para clientes em dia com mensalidades
                       </p>
                       <p className="text-xs text-red-500 dark:text-red-500">
-                        {emergencySupport.hours}
+                        24/7 - Finais de semana e feriados
                       </p>
                     </div>
                   </div>
@@ -156,6 +188,30 @@ export const Contact = () => {
                     <div><strong>CNPJ:</strong> 12.345.678/0001-90</div>
                     <div><strong>CRC-SP:</strong> 2SP034567/O-6</div>
                     <div><strong>Responsável Técnico:</strong> Dr. Carlos Mendonça</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Google Maps - Moved here and made smaller */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center text-lg">
+                    <MapPin className="h-5 w-5 mr-2 text-blue-600" />
+                    Localização
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="w-full h-48 relative">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1976!2d-46.65818698!3d-23.5613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001310-100!5e0!3m2!1spt!2sbr!4v1642694852707!5m2!1spt!2sbr"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="rounded-b-lg"
+                    ></iframe>
                   </div>
                 </CardContent>
               </Card>
@@ -253,32 +309,6 @@ export const Contact = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
-
-        {/* Google Maps */}
-        <div className="mt-12">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <MapPin className="h-5 w-5 mr-2 text-blue-600" />
-                Localização do Escritório
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="w-full h-96 relative">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1976!2d-46.65818698!3d-23.5613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001310-100!5e0!3m2!1spt!2sbr!4v1642694852707!5m2!1spt!2sbr"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="rounded-b-lg"
-                ></iframe>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </section>

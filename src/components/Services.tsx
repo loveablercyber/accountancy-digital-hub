@@ -2,6 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { 
   FileText, 
   TrendingUp, 
@@ -21,7 +22,8 @@ export const Services = () => {
       description: "Processo completo de constituição empresarial com suporte jurídico e contábil",
       features: ["CNPJ em 24h", "Licenças e Alvarás", "Enquadramento Fiscal", "Consultoria Inicial"],
       badge: "Mais Popular",
-      color: "blue"
+      color: "blue",
+      link: "/servicos/mei"
     },
     {
       icon: Calculator,
@@ -29,7 +31,8 @@ export const Services = () => {
       description: "Otimização fiscal inteligente com tecnologia e expertise especializada",
       features: ["Apuração Automática", "Planejamento Tributário", "Elisão Fiscal", "Compliance"],
       badge: "Economia Garantida",
-      color: "green"
+      color: "green",
+      link: "/servicos/simples-nacional"
     },
     {
       icon: Users,
@@ -37,7 +40,8 @@ export const Services = () => {
       description: "Gestão completa de RH com cálculos precisos e conformidade trabalhista",
       features: ["eSocial Integrado", "Cálculos Automáticos", "Rescisões", "Benefícios"],
       badge: "Sem Erro",
-      color: "purple"
+      color: "purple",
+      link: "/servicos/lucro-presumido"
     },
     {
       icon: TrendingUp,
@@ -45,7 +49,8 @@ export const Services = () => {
       description: "Análises estratégicas para crescimento sustentável do seu negócio",
       features: ["DRE Gerencial", "Fluxo de Caixa", "Indicadores", "Projeções"],
       badge: "Crescimento",
-      color: "orange"
+      color: "orange",
+      link: "/servicos/lucro-presumido"
     },
     {
       icon: Shield,
@@ -53,7 +58,8 @@ export const Services = () => {
       description: "Conformidade total com normas contábeis e fiscais vigentes",
       features: ["Auditoria Interna", "Due Diligence", "Governança", "Risk Management"],
       badge: "Segurança Total",
-      color: "red"
+      color: "red",
+      link: "/servicos/mei"
     },
     {
       icon: Briefcase,
@@ -61,7 +67,8 @@ export const Services = () => {
       description: "Tecnologia de ponta para automação total dos processos contábeis",
       features: ["Dashboard Real-time", "APIs Integradas", "IA Contábil", "Mobile App"],
       badge: "Inovação",
-      color: "indigo"
+      color: "indigo",
+      link: "/servicos/simples-nacional"
     }
   ];
 
@@ -119,10 +126,12 @@ export const Services = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full group-hover:bg-blue-600 transition-colors">
-                    Saiba Mais
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                  <Link to={service.link}>
+                    <Button className="w-full group-hover:bg-blue-600 transition-colors">
+                      Saiba Mais
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             );
@@ -141,7 +150,12 @@ export const Services = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {regimes.map((regime, index) => (
+            {[
+              { name: "MEI", description: "Microempreendedor Individual" },
+              { name: "Simples Nacional", description: "Regime Simplificado" },
+              { name: "Lucro Presumido", description: "Tributação Presumida" },
+              { name: "Lucro Real", description: "Tributação pelo Lucro Efetivo" }
+            ].map((regime, index) => (
               <div key={index} className="text-center p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <h4 className="font-semibold text-slate-900 dark:text-white mb-2">{regime.name}</h4>
                 <p className="text-sm text-slate-600 dark:text-slate-300">{regime.description}</p>
