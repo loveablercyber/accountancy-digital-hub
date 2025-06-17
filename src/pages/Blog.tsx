@@ -1,12 +1,10 @@
+
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Calendar, User, ArrowRight, Clock, Eye, Search, ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
+import { BlogHeader } from "@/components/blog/BlogHeader";
+import { BlogFilters } from "@/components/blog/BlogFilters";
+import { BlogGrid } from "@/components/blog/BlogGrid";
 import { useRSSNews } from "@/hooks/useRSSNews";
 
 const Blog = () => {
@@ -93,140 +91,19 @@ const Blog = () => {
       <Navbar />
       
       <main className="pt-20">
-        {/* Header */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto text-center">
-            <Badge variant="secondary" className="mb-4 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-              Blog Contábil
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
-              Insights e Atualizações
-            </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-              Mantenha-se atualizado com as últimas mudanças na legislação tributária 
-              e dicas exclusivas dos nossos especialistas.
-            </p>
-            {isLoading && (
-              <div className="mt-4 text-sm text-slate-500">
-                Carregando notícias atualizadas do Portal Contábeis...
-              </div>
-            )}
-          </div>
-        </section>
+        <BlogHeader isLoading={isLoading} />
+        
+        <BlogFilters
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          categories={categories}
+        />
 
-        {/* Search and Filter */}
-        <section className="px-4 sm:px-6 lg:px-8 mb-12">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-4 mb-8">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input
-                  placeholder="Buscar artigos..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                {categories.map((category) => (
-                  <Button
-                    key={category}
-                    variant={selectedCategory === category ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedCategory(category)}
-                    className="text-xs"
-                  >
-                    {category}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Blog Posts */}
         <section className="px-4 sm:px-6 lg:px-8 pb-20">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post) => (
-                <Card key={post.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge variant="secondary" className="bg-blue-600 text-white">
-                        {post.category}
-                      </Badge>
-                    </div>
-                    {post.external && (
-                      <div className="absolute top-4 right-4">
-                        <Badge variant="secondary" className="bg-green-600 text-white text-xs">
-                          <ExternalLink className="h-3 w-3 mr-1" />
-                          RSS
-                        </Badge>
-                      </div>
-                    )}
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="text-lg group-hover:text-blue-600 transition-colors line-clamp-2">
-                      {post.title}
-                    </CardTitle>
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="flex items-center">
-                          <User className="h-4 w-4 mr-1" />
-                          {post.author}
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1" />
-                          {post.readTime}
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        <Eye className="h-4 w-4 mr-1" />
-                        {post.views}
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-slate-500 dark:text-slate-400">
-                        {post.date}
-                      </span>
-                      {post.external ? (
-                        <a href={post.slug} target="_blank" rel="noopener noreferrer">
-                          <Button variant="outline" size="sm" className="group">
-                            Ler Mais
-                            <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                          </Button>
-                        </a>
-                      ) : (
-                        <Link to={`/blog/${post.slug}`}>
-                          <Button variant="outline" size="sm" className="group">
-                            Ler Mais
-                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                          </Button>
-                        </Link>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {filteredPosts.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-slate-600 dark:text-slate-300">
-                  Nenhum artigo encontrado com os filtros selecionados.
-                </p>
-              </div>
-            )}
+            <BlogGrid posts={filteredPosts} />
           </div>
         </section>
       </main>
