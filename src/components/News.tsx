@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +21,8 @@ export const News = () => {
       views: "2.1k",
       category: "Tributário",
       featured: true,
-      link: "/blog/mudancas-simples-nacional-2024"
+      link: "/blog/mudancas-simples-nacional-2024",
+      external: false
     },
     {
       id: 2,
@@ -35,7 +35,8 @@ export const News = () => {
       views: "1.8k",
       category: "Trabalhista",
       featured: true,
-      link: "/blog/esocial-prazo-adequacao"
+      link: "/blog/esocial-prazo-adequacao",
+      external: false
     }
   ];
 
@@ -81,7 +82,8 @@ export const News = () => {
       views: "3.2k",
       category: "Imposto de Renda",
       featured: false,
-      link: "/blog/imposto-renda-2024-calendario"
+      link: "/blog/imposto-renda-2024-calendario",
+      external: false
     },
     {
       id: 4,
@@ -94,7 +96,8 @@ export const News = () => {
       views: "1.5k",
       category: "Tecnologia",
       featured: false,
-      link: "/blog/digitalizacao-contabil-ia"
+      link: "/blog/digitalizacao-contabil-ia",
+      external: false
     }
   ]);
 

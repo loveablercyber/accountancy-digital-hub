@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,7 +31,8 @@ const Blog = () => {
       readTime: "5 min",
       views: "2.1k",
       category: "Tributário",
-      slug: "mudancas-simples-nacional-2024"
+      slug: "mudancas-simples-nacional-2024",
+      external: false
     }
   ];
 
@@ -63,7 +63,8 @@ const Blog = () => {
       readTime: "7 min",
       views: "1.8k",
       category: "Trabalhista",
-      slug: "esocial-prazo-adequacao"
+      slug: "esocial-prazo-adequacao",
+      external: false
     },
     {
       id: 3,
@@ -75,7 +76,8 @@ const Blog = () => {
       readTime: "6 min",
       views: "3.2k",
       category: "Imposto de Renda",
-      slug: "imposto-renda-2024-calendario"
+      slug: "imposto-renda-2024-calendario",
+      external: false
     }
   ]);
 
